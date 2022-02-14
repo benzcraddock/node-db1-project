@@ -22,40 +22,44 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', checkAccountId, async (req, res, next) => {
   // DO YOUR MAGIC
+  // replaced w middleware
+  // try {
+  //   const data = await Account.getById(req.params.id)
+  //   res.json(data)
+  // }
+  // catch(err) {
+  //   next(err)
+  // }
+  res.json(req.account)
+})
+
+router.post('/', checkAccountPayload, checkAccountNameUnique, async (req, res, next) => {
+  // DO YOUR MAGIC
   try {
-    const data = await Account.getById(req.params.id)
+    const data = await Account.create(req.body)
     res.json(data)
   }
   catch(err) {
     next(err)
   }
-  
 })
 
-router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
+router.put('/:id', checkAccountId, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    res.json('create account')
-  }
-  catch(err) {
-    next(err)
-  }
-})
-
-router.put('/:id', checkAccountId, (req, res, next) => {
-  // DO YOUR MAGIC
-  try {
-    res.json('update account')
+    const data = await Account.updateById(req.params.id, req.body)
+    res.json(data)
   }
   catch(err) {
     next(err)
   }
 });
 
-router.delete('/:id', checkAccountId, (req, res, next) => {
+router.delete('/:id', checkAccountId, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    res.json('delete account')
+    const data = await Account.deleteById(req.params.id)
+    res.json(data)
   }
   catch(err) {
     next(err)
@@ -65,7 +69,8 @@ router.delete('/:id', checkAccountId, (req, res, next) => {
 router.use((err, req, res, next) => { // eslint-disable-line
   // DO YOUR MAGIC
   res.status(err.status || 500).json({
-    message: err.message
+    message: err.message,
+    stack: err.stack
   })
 })
 

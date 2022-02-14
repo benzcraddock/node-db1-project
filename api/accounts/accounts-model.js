@@ -9,20 +9,29 @@ const getAll = () => {
 
 const getById = id => {
   // DO YOUR MAGIC
+  // select * from accounts where id = ___;
   return db('accounts')
-    .where({ id: id }) // http get :9000/api/accounts/1 returns id 1 from accounts database
+    .where({ id: id }).first() // http get :9000/api/accounts/1 returns id 1 from accounts database
 }
 
-const create = account => {
+const create = (account) => {
   // DO YOUR MAGIC
+  return db('accounts')
+    .insert({ account }) // http post :9000/api/accounts 
 }
 
 const updateById = (id, account) => {
   // DO YOUR MAGIC
+  return db('accounts')
+    .where({ id: id })
+    .update({ account })
 }
 
 const deleteById = id => {
   // DO YOUR MAGIC
+  return db('accounts')
+    .where({ id: id })
+    .del()
 }
 
 module.exports = {
