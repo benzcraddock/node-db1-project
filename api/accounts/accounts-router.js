@@ -12,8 +12,8 @@ const Account = require('./accounts-model')
 router.get('/', async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const data = await Account.getAll()
-    res.json(data)
+    const accounts = await Account.getAll()
+    res.json(accounts)
   }
   catch(err) {
     next(err)
@@ -36,19 +36,19 @@ router.get('/:id', checkAccountId, async (req, res, next) => {
 router.post('/', checkAccountPayload, checkAccountNameUnique, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const data = await Account.create(req.body)
-    res.json(data)
+    const newAccount = await Account.create({ name: req.body.name.trim(), budget: req.body.budget })
+    res.status(201).json(newAccount)
   }
   catch(err) {
     next(err)
   }
 })
 
-router.put('/:id', checkAccountId, async (req, res, next) => {
+router.put('/:id', checkAccountId, checkAccountPayload, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const data = await Account.updateById(req.params.id, req.body)
-    res.json(data)
+    const updatedAccount = await Account.updateById(req.params.id, req.body)
+    res.json(updatedAccount)
   }
   catch(err) {
     next(err)
@@ -58,8 +58,8 @@ router.put('/:id', checkAccountId, async (req, res, next) => {
 router.delete('/:id', checkAccountId, async (req, res, next) => {
   // DO YOUR MAGIC
   try {
-    const data = await Account.deleteById(req.params.id)
-    res.json(data)
+    const deletedAccount = await Account.deleteById(req.params.id)
+    res.json(deletedAccount)
   }
   catch(err) {
     next(err)
