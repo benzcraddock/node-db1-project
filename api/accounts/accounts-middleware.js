@@ -5,7 +5,6 @@ const Account = require('./accounts-model')
 const db = require('../../data/db-config')
 
 exports.checkAccountPayload = (req, res, next) => {
-  // DO YOUR MAGIC
   // Note: you can either write "manual" validation logic
   // or use the Yup library (not currently installed)
 
@@ -34,9 +33,9 @@ exports.checkAccountPayload = (req, res, next) => {
 }
 
 exports.checkAccountNameUnique = async (req, res, next) => {
-  // DO YOUR MAGIC
   // Use SQL / JS here to check if an account name is unique in the DB, that is why we bring the DB in
   // IF existing account with same name, BAD and shoot error
+
   try {
     const existing = await db('accounts')
       .where('name', req.body.name.trim())
@@ -57,7 +56,7 @@ exports.checkAccountNameUnique = async (req, res, next) => {
 }
 
 exports.checkAccountId = async (req, res, next) => {
-  // DO YOUR MAGIC
+
   try {
     const account = await Account.getById(req.params.id)
 
